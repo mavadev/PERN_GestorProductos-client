@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import Layout from './layouts/Layout';
-import { CreateProduct, Products } from './pages';
+import Products from './pages/Products';
+import CreateProduct, { action as newProductAction } from './pages/CreateProduct';
 
 const routes: RouteObject[] = [
 	{
@@ -14,6 +15,7 @@ const routes: RouteObject[] = [
 			{
 				path: 'crear/',
 				element: <CreateProduct />,
+				action: newProductAction,
 			},
 		],
 	},

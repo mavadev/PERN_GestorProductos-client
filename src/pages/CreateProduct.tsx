@@ -1,6 +1,21 @@
-import { Link } from 'react-router-dom';
+import { Link, Form, ActionFunctionArgs, useActionData } from 'react-router-dom';
+import ErrorMessage from '../components/ErrorMessage';
+
+export async function action({ request }: ActionFunctionArgs) {
+	const data = Object.fromEntries(await request.formData());
+
+	// Validación
+	if (Object.values(data).includes('')) {
+		return 'Todos los campos obligatorios';
+	}
+
+	// redirect al usuario a productos
+	return null;
+}
 
 const CreateProduct = () => {
+	const error = useActionData() as string;
+
 	return (
 		<>
 			<header className='flex justify-between pb-5 border-b-2'>
@@ -11,8 +26,10 @@ const CreateProduct = () => {
 					Ver Productos
 				</Link>
 			</header>
-
-			<form className='space-y-6 pt-6'>
+			<ErrorMessage error={error} />
+			<Form
+				method='POST'
+				className='space-y-6 pt-6'>
 				<div>
 					<label
 						htmlFor='name'
@@ -46,7 +63,7 @@ const CreateProduct = () => {
 					value='Registrar Producto'
 					className='w-full bg-teal-700 p-3 text-white font-bold text-lg cursor-pointer hover:bg-teal-600  rounded'
 				/>
-			</form>
+			</Form>
 		</>
 	);
 };
