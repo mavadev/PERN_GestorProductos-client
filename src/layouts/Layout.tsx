@@ -7,7 +7,7 @@ const Layout = () => {
 					<h1 className='text-3xl font-bold text-white text-center'>Administrador de Productos</h1>
 				</div>
 			</header>
-			<main className='container mx-auto mt-10 p-10 bg-white shadow'>
+			<main className='container mx-auto mt-10 p-10 bg-white shadow '>
 				<Outlet />
 			</main>
 		</>
