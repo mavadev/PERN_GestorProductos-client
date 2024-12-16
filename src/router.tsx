@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import Layout from './layouts/Layout';
-import Products from './pages/Products';
+import Products, { loader as getProductsLoader } from './pages/Products';
 import CreateProduct, { action as newProductAction } from './pages/CreateProduct';
 
 const routes: RouteObject[] = [
@@ -11,6 +11,7 @@ const routes: RouteObject[] = [
 			{
 				index: true,
 				element: <Products />,
+				loader: getProductsLoader,
 			},
 			{
 				path: 'crear/',

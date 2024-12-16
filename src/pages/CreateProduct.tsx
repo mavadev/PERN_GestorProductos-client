@@ -9,9 +9,9 @@ export async function action({ request }: ActionFunctionArgs) {
 	if (Object.values(data).includes('')) {
 		return 'Todos los campos obligatorios';
 	}
-
-	// redirect al usuario a productos
+	// Crear Producto
 	await addProduct(data);
+	// redirect al usuario
 	return redirect('/');
 }
 
