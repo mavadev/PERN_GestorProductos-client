@@ -1,15 +1,16 @@
 import {
-	Link,
-	Form,
+	LoaderFunctionArgs,
 	ActionFunctionArgs,
 	useActionData,
-	redirect,
-	LoaderFunctionArgs,
 	useLoaderData,
+	redirect,
+	Link,
+	Form,
 } from 'react-router-dom';
+import { toBoolean } from '../utils';
+import { DraftProductEdit, Product } from '../types';
+import { getProductByID, updateProduct } from '../services/ProductService';
 import ErrorMessage from '../components/ErrorMessage';
-import { getProductByID } from '../services/ProductService';
-import { Product } from '../types';
 
 export async function loader({ params }: LoaderFunctionArgs) {
 	const { id } = params;
@@ -18,25 +19,43 @@ export async function loader({ params }: LoaderFunctionArgs) {
 	if (!id || isNaN(numberID)) return redirect('/');
 
 	const product = await getProductByID(numberID);
+	if (!product) return redirect('/');
+
 	return product;
 }
 
-export async function action({ request }: ActionFunctionArgs) {
-	const data = Object.fromEntries(await request.formData());
+export async function action({ request, params }: ActionFunctionArgs) {
+	const formData = await request.formData();
+	const data = Object.fromEntries(formData);
 
 	// Validación
 	if (Object.values(data).includes('')) {
+		console.log(data);
 		return 'Todos los campos obligatorios';
 	}
+
+	// Producto
+	const productEdit: DraftProductEdit = {
+		name: data.name as string,
+		price: +data.price as number,
+		availability: toBoolean(data.availability.toString()),
+	};
+
 	// Editar Producto
+	if (params.id) await updateProduct(productEdit, +params.id);
 
 	// redirect al usuario
 	return redirect('/');
 }
 
+const availabilityOptions = [
+	{ name: 'Disponible', value: true },
+	{ name: 'No Disponible', value: false },
+];
+
 const EditProduct = () => {
-	const error = useActionData<string>();
 	const product = useLoaderData<Product>();
+	const error = useActionData<string>();
 
 	return (
 		<>
@@ -51,8 +70,8 @@ const EditProduct = () => {
 			<ErrorMessage error={error} />
 			<Form
 				method='PUT'
-				className='space-y-6 pt-6'>
-				<div>
+				className='pt-6'>
+				<div className='mb-6'>
 					<label
 						htmlFor='name'
 						className='text-gray-800 text-lg'>
@@ -67,7 +86,7 @@ const EditProduct = () => {
 						className='block w-full p-3 bg-gray-100 mt-2'
 					/>
 				</div>
-				<div>
+				<div className='mb-6'>
 					<label
 						htmlFor='price'
 						className='text-gray-800 text-lg'>
@@ -82,6 +101,26 @@ const EditProduct = () => {
 						placeholder='ej. 200, 300, 1200'
 						className='block w-full p-3 bg-gray-100 mt-2'
 					/>
+				</div>
+				<div className='mb-6'>
+					<label
+						htmlFor='availability'
+						className='text-gray-800'>
+						Disponibilidad:
+					</label>
+					<select
+						id='availability'
+						name='availability'
+						className='mt-2 block w-full p-3 bg-gray-50'
+						defaultValue={product?.availability.toString()}>
+						{availabilityOptions.map(option => (
+							<option
+								key={option.name}
+								value={option.value.toString()}>
+								{option.name}
+							</option>
+						))}
+					</select>
 				</div>
 				<input
 					type='submit'

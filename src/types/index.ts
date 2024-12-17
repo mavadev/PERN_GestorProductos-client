@@ -1,16 +1,21 @@
-import { boolean, number, object, string, InferOutput, array } from 'valibot';
+import { boolean, number, object, string, InferOutput, array, omit } from 'valibot';
 
-export const DraftProductSchema = object({
-	name: string(),
-	price: number(),
-});
-
+// Producto
 export const ProductSchema = object({
 	id: number(),
 	name: string(),
 	price: number(),
 	availability: boolean(),
 });
+export type Product = InferOutput<typeof ProductSchema>;
+
+// Productos
 export const ProductsSchema = array(ProductSchema);
 
-export type Product = InferOutput<typeof ProductSchema>;
+// Crear Producto
+export const DraftProductCreateSchema = omit(ProductSchema, ['id', 'availability']);
+export type DraftProductCreate = InferOutput<typeof DraftProductCreateSchema>;
+
+// Editar Producto
+export const DraftProductEditSchema = omit(ProductSchema, ['id']);
+export type DraftProductEdit = InferOutput<typeof DraftProductEditSchema>;

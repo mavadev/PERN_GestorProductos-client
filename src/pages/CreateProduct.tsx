@@ -1,6 +1,7 @@
 import { Link, Form, ActionFunctionArgs, useActionData, redirect } from 'react-router-dom';
 import ErrorMessage from '../components/ErrorMessage';
 import { addProduct } from '../services/ProductService';
+import { DraftProductCreate } from '../types';
 
 export async function action({ request }: ActionFunctionArgs) {
 	const data = Object.fromEntries(await request.formData());
@@ -9,14 +10,20 @@ export async function action({ request }: ActionFunctionArgs) {
 	if (Object.values(data).includes('')) {
 		return 'Todos los campos obligatorios';
 	}
+	// Producto
+	const newProduct: DraftProductCreate = {
+		name: data.name as string,
+		price: +data.price as number,
+	};
+
 	// Crear Producto
-	await addProduct(data);
+	await addProduct(newProduct);
 	// redirect al usuario
 	return redirect('/');
 }
 
 const CreateProduct = () => {
-	const error = useActionData() as string;
+	const error = useActionData<string>();
 
 	return (
 		<>
