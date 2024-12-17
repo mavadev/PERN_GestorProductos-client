@@ -21,27 +21,29 @@ const Products = () => {
 				</Link>
 			</header>
 
-			<section className='p-2'>
-				<table className='w-full mt-5 table-auto'>
-					<thead className='bg-slate-800 text-white'>
+			<section>
+				<table className='w-full mt-5 table-auto border'>
+					<thead className='bg-slate-800 text-white text-xl'>
 						<tr>
-							<th className='p-2'>Producto</th>
-							<th className='p-2'>Precio</th>
-							<th className='p-2'>Disponibilidad</th>
-							<th className='p-2'>Acciones</th>
+							<th className='py-4'>Producto</th>
+							<th className='py-4'>Precio</th>
+							<th className='py-4'>Disponibilidad</th>
+							<th className='py-4'>Acciones</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody className='text-lg'>
 						{products.map(product => (
 							<tr
 								key={product.id}
-								className='border-b'>
-								<td className='p-3 text-lg text-gray-800'>{product.name}</td>
-								<td className='p-3 text-lg text-gray-800'>{formatCurrency(product.price)}</td>
-								<td className='p-3 text-lg text-gray-800 '>{product.availability ? 'Disponible' : 'Agotado'}</td>
-								<td className='p-3 text-lg text-gray-800'>
-									<p>Editar</p>
-									<p>Eliminar</p>
+								className='border text-center text-gray-800'>
+								<td className='p-3'>{product.name}</td>
+								<td className='p-3'>{formatCurrency(product.price)}</td>
+								<td className='p-3'>{product.availability ? 'Disponible' : 'Agotado'}</td>
+								<td className='p-3'>
+									<div className='flex gap-2'>
+										<button className='button flex-1 bg-green-600 hover:bg-green-700'>Editar</button>
+										<button className='button flex-1 bg-red-600 hover:bg-red-700'>Eliminar</button>
+									</div>
 								</td>
 							</tr>
 						))}

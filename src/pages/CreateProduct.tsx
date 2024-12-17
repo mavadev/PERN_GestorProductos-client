@@ -54,6 +54,7 @@ const CreateProduct = () => {
 					</label>
 					<input
 						id='price'
+						step='0.01'
 						name='price'
 						type='number'
 						placeholder='ej. 200, 300, 1200'
