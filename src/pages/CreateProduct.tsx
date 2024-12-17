@@ -1,7 +1,7 @@
-import { Link, Form, ActionFunctionArgs, useActionData, redirect } from 'react-router-dom';
-import ErrorMessage from '../components/ErrorMessage';
+import { Form, ActionFunctionArgs, useActionData, redirect } from 'react-router-dom';
 import { addProduct } from '../services/ProductService';
 import { DraftProductCreate } from '../types';
+import { ErrorMessage, HeaderSection } from '../components';
 
 export async function action({ request }: ActionFunctionArgs) {
 	const data = Object.fromEntries(await request.formData());
@@ -27,14 +27,11 @@ const CreateProduct = () => {
 
 	return (
 		<>
-			<header className='flex justify-between pb-5 border-b-2'>
-				<h2 className='text-2xl text-slate-700'>Crear Producto</h2>
-				<Link
-					to='/'
-					className='bg-teal-700 p-3 text-sm font-bold text-white hover:bg-teal-600 rounded'>
-					Ver Productos
-				</Link>
-			</header>
+			<HeaderSection
+				linkPath='/'
+				title='Crear Producto'
+				linkName='Ver Productos'
+			/>
 			<ErrorMessage error={error} />
 			<Form
 				method='POST'

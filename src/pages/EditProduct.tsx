@@ -1,16 +1,8 @@
-import {
-	LoaderFunctionArgs,
-	ActionFunctionArgs,
-	useActionData,
-	useLoaderData,
-	redirect,
-	Link,
-	Form,
-} from 'react-router-dom';
+import { LoaderFunctionArgs, ActionFunctionArgs, useActionData, useLoaderData, redirect, Form } from 'react-router-dom';
 import { toBoolean } from '../utils';
 import { DraftProductEdit, Product } from '../types';
 import { getProductByID, updateProduct } from '../services/ProductService';
-import ErrorMessage from '../components/ErrorMessage';
+import { ErrorMessage, HeaderSection } from '../components';
 
 export async function loader({ params }: LoaderFunctionArgs) {
 	const { id } = params;
@@ -59,14 +51,11 @@ const EditProduct = () => {
 
 	return (
 		<>
-			<header className='flex justify-between pb-5 border-b-2'>
-				<h2 className='text-2xl text-slate-700'>Editar Producto</h2>
-				<Link
-					to='/'
-					className='bg-teal-700 p-3 text-sm font-bold text-white hover:bg-teal-600 rounded'>
-					Ver Productos
-				</Link>
-			</header>
+			<HeaderSection
+				linkPath='/'
+				title='Editar Producto'
+				linkName='Ver Productos'
+			/>
 			<ErrorMessage error={error} />
 			<Form
 				method='PUT'

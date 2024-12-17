@@ -1,38 +1,39 @@
-import { Link, useLoaderData, useNavigate } from 'react-router-dom';
-import { getProducts } from '../services/ProductService';
+import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useMemo } from 'react';
 import { Product } from '../types';
 import { formatCurrency } from '../utils';
+import { HeaderSection } from '../components';
+import { getProducts } from '../services/ProductService';
 
 export async function loader() {
-	const products = await getProducts();
-	return products;
+	return await getProducts();
 }
 
 const Products = () => {
 	const navigate = useNavigate();
 	const products = useLoaderData<Product[]>();
 
-	const handleNavigate = (product: Product) =>
-		navigate(`/editar/${product.id}`, {
-			state: product,
-		});
+	const handleNavigate = useMemo(
+		() => (product: Product) =>
+			navigate(`/editar/${product.id}`, {
+				state: product,
+			}),
+		[]
+	);
 
 	return (
 		<>
-			<header className='flex justify-between'>
-				<h2 className='text-2xl text-slate-700'>Lista de Productos</h2>
-				<Link
-					to='/crear'
-					className='bg-teal-700 p-3 text-sm font-bold text-white hover:bg-teal-600 rounded'>
-					Crear Producto
-				</Link>
-			</header>
+			<HeaderSection
+				linkPath='/crear'
+				title='Productos'
+				linkName='Crear Producto'
+			/>
 
 			<section>
 				<table className='w-full mt-5 table-auto border'>
 					<thead className='bg-slate-800 text-white text-xl'>
 						<tr>
-							<th className='py-4'>Producto</th>
+							<th className='py-4'>Nombre</th>
 							<th className='py-4'>Precio</th>
 							<th className='py-4'>Disponibilidad</th>
 							<th className='py-4'>Acciones</th>
