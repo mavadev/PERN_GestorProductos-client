@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData, useNavigate } from 'react-router-dom';
 import { getProducts } from '../services/ProductService';
 import { Product } from '../types';
 import { formatCurrency } from '../utils';
@@ -9,7 +9,14 @@ export async function loader() {
 }
 
 const Products = () => {
+	const navigate = useNavigate();
 	const products = useLoaderData<Product[]>();
+
+	const handleNavigate = (product: Product) =>
+		navigate(`/editar/${product.id}`, {
+			state: product,
+		});
+
 	return (
 		<>
 			<header className='flex justify-between'>
@@ -41,7 +48,11 @@ const Products = () => {
 								<td className='p-3'>{product.availability ? 'Disponible' : 'Agotado'}</td>
 								<td className='p-3'>
 									<div className='flex gap-2'>
-										<button className='button flex-1 bg-green-600 hover:bg-green-700'>Editar</button>
+										<button
+											onClick={() => handleNavigate(product)}
+											className='button flex-1 bg-green-600 hover:bg-green-700'>
+											Editar
+										</button>
 										<button className='button flex-1 bg-red-600 hover:bg-red-700'>Eliminar</button>
 									</div>
 								</td>
