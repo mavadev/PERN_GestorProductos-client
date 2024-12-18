@@ -1,12 +1,18 @@
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { ActionFunctionArgs, Form, redirect, useLoaderData, useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import { Product } from '../types';
 import { formatCurrency } from '../utils';
 import { HeaderSection } from '../components';
-import { getProducts } from '../services/ProductService';
+import { deleteProduct, getProducts } from '../services/ProductService';
 
 export async function loader() {
 	return await getProducts();
+}
+
+export async function action({ params }: ActionFunctionArgs) {
+	if (!params.id) return redirect('/');
+	await deleteProduct(+params.id);
+	return redirect('/');
 }
 
 const Products = () => {
@@ -51,10 +57,19 @@ const Products = () => {
 									<div className='flex gap-2'>
 										<button
 											onClick={() => handleNavigate(product)}
-											className='button flex-1 bg-green-600 hover:bg-green-700'>
+											className='button w-full bg-green-600 hover:bg-green-700'>
 											Editar
 										</button>
-										<button className='button flex-1 bg-red-600 hover:bg-red-700'>Eliminar</button>
+										<Form
+											method='POST'
+											className='w-full bg-black'
+											action={`/eliminar/${product.id}`}>
+											<input
+												type='submit'
+												value='Eliminar'
+												className='button w-full bg-red-600 hover:bg-red-700'
+											/>
+										</Form>
 									</div>
 								</td>
 							</tr>

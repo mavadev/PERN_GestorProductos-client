@@ -64,3 +64,13 @@ export async function updateProduct(productEdit: DraftProductEdit, id: Product['
 		console.error(error);
 	}
 }
+
+export async function deleteProduct(productID: Product['id']) {
+	try {
+		// Eliminar producto
+		const url = `${import.meta.env.VITE_API_URL}/api/products/${productID}`;
+		await axios.delete(url);
+	} catch (error) {
+		console.error(error);
+	}
+}
