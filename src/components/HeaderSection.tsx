@@ -8,7 +8,7 @@ interface HeaderSectionProps {
 
 const HeaderSection = ({ title, linkPath, linkName }: HeaderSectionProps) => {
 	return (
-		<header className='flex justify-between pb-5 border-b-2'>
+		<header className='flex justify-between items-center'>
 			<h2 className='text-2xl text-slate-700'>{title}</h2>
 			<Link
 				to={linkPath}

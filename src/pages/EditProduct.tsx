@@ -59,7 +59,7 @@ const EditProduct = () => {
 			<ErrorMessage error={error} />
 			<Form
 				method='PUT'
-				className='pt-6'>
+				className='pt-6 border-t-2 mt-6'>
 				<div className='mb-6'>
 					<label
 						htmlFor='name'

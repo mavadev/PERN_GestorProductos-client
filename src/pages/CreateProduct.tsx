@@ -35,7 +35,7 @@ const CreateProduct = () => {
 			<ErrorMessage error={error} />
 			<Form
 				method='POST'
-				className='space-y-6 pt-6'>
+				className='space-y-6 pt-6 border-t-2 mt-6'>
 				<div>
 					<label
 						htmlFor='name'
